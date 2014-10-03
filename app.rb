@@ -3,6 +3,8 @@ require 'redis'
 
 DELIM = '☃'
 SECRET = ENV['SECRET']
+GITHUB = 'https://github.com/flatworld'
+REPO_MAP = { "admin-web" => "id-web", "comp-web" => "cbe-web" }
 
 redis_uri = ENV['REDISTOGO_URL'] || 'redis://localhost:6379'
 uri = URI.parse(redis_uri)
@@ -33,7 +35,7 @@ end
 
 def server_status(server_name)
   status = {}
-  REDIS.keys("#{server_name}#{DELIM}*").each do |key|
+  REDIS.keys("#{server_name}#{DELIM}*").sort.each do |key|
     repo = key.split(DELIM)[-1]
     status[repo] = REDIS.hgetall(key)
   end
@@ -46,7 +48,7 @@ end
 
 def deploy_status
   status = {}
-  servers.each do |server|
+  servers.sort.each do |server|
     stat = server_status(server)
     status[server] = stat unless stat.empty?
   end
@@ -60,17 +62,18 @@ def status_to_html(deploy_status)
   deploy_status.each do |server, repos|
     html += ["<h2>#{server}</h2>\n",
              "<table>\n",
-             "<th>repo</th>\n<th>tag</th>\n<th>hash</th>\n<th>date</th>\n<th>deployer</th>\n"]
+             "<thead><th>repo</th>\n<th>tag</th>\n<th>hash</th>\n<th>date</th>\n<th>deployer</th></thead><tbody>\n"]
     repos.each do |repo, deploy_data|
+      repo = REPO_MAP.fetch(repo, repo)
       html += ["<tr>",
-               "<td>#{repo}</td>\n",
-               "<td>#{deploy_data["tag"]}</td>\n",
-               "<td><a href=\"https://github.com/flatworld/#{repo}/commit/#{deploy_data["sha"]}\">#{deploy_data["sha"]}</a></td>\n",
+               "<td><a href=\"#{GITHUB}/#{repo}\">#{repo}</td>\n",
+               "<td><a href=\"#{GITHUB}/#{repo}/compare/#{deploy_data["tag"]}\">#{deploy_data["tag"]}</td>\n",
+               "<td><a href=\"#{GITHUB}/#{repo}/commit/#{deploy_data["sha"]}\">#{deploy_data["sha"]}</a></td>\n",
                "<td>#{deploy_data["date"]}</td>\n",
                "<td>#{deploy_data["deployer"]}</td>\n",
                "</tr>"]
     end
-    html << "</table>\n"
+    html << "</tbody></table>\n"
   end
   html << "</body>\n</html>"
   html.join("")
