@@ -26,3 +26,15 @@ a:hover {
     color: #B5891D;
     text-decoration: underline;
 }
+
+.repo {
+    width: 100px;
+}
+
+.hash {
+    width: 80px;
+}
+
+.date {
+    width: 200px;
+}

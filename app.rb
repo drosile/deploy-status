@@ -62,6 +62,7 @@ def status_to_html(deploy_status)
   deploy_status.each do |server, repos|
     html += ["<h2>#{server}</h2>\n",
              "<table>\n",
+             '<colgroup><col class="repo"><col class="tag"><col class="hash"><col class="date"><col class="deployer"></colgroup>',
              "<thead><th>repo</th>\n<th>tag</th>\n<th>hash</th>\n<th>date</th>\n<th>deployer</th></thead><tbody>\n"]
     repos.each do |repo, deploy_data|
       repo = REPO_MAP.fetch(repo, repo)
