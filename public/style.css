@@ -1,14 +1,28 @@
+body {
+    background-color: #FDF6E3;
+    font-family: Menlo, Monaco, monospace;
+    color: #5D6561;
+}
+
 table {
-  border-collapse: collapse;
+    font-size: 11px;
+    min-width: 900px;
 }
 
-td, th {
-  padding: 3px;
-  min-width: 100px;
-  padding-right: 10px;
-  text-align: center;
+th {
+    background-color: #CAC3B1;
 }
 
-tbody tr:nth-child(odd) {
-  background: #eee;
+tr:nth-child(odd) {
+    background-color: #EEE8D5;
+}
+
+a {
+    color: #CB4A17;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #B5891D;
+    text-decoration: underline;
 }
