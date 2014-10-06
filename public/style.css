@@ -28,13 +28,17 @@ a:hover {
 }
 
 .repo {
-    width: 100px;
+   width: 100px;
 }
 
 .hash {
-    width: 80px;
+   width: 80px;
 }
 
 .date {
-    width: 200px;
+   width: 200px;
+}
+
+.deployer {
+   width: 150px;
 }
