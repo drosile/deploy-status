@@ -5,6 +5,14 @@ DELIM = '☃'
 SECRET = ENV['SECRET']
 GITHUB = 'https://github.com/flatworld'
 REPO_MAP = { "admin-web" => "id-web", "comp-web" => "cbe-web" }
+SERVER_MAP = {
+  "bu-cbeserver1.flatworldknowledge.com" => "brandman",
+  "demo-cbeapp.flatworldknowledge.com" => "demo",
+  "dev-cbeserver1.flatworldknowledge.com" => "dev",
+  "lt-cbeserver1.flatworldknowledge.com" => "laureate",
+  "qa-cbeserver1.flatworldknowledge.com" => "qa",
+  "template-cbeserver1.flatworldknowledge.com" => "template"
+}
 
 redis_uri = ENV['REDISTOGO_URL'] || 'redis://localhost:6379'
 uri = URI.parse(redis_uri)
@@ -60,6 +68,7 @@ def status_to_html(deploy_status)
           "<head>\n<link rel='stylesheet' type='text/css' href='style.css'>\n",
           "<title>Deploy status</title>\n</head>\n<body>"]
   deploy_status.each do |server, repos|
+    server = SERVER_MAP.fetch(server, server)
     html += ["<h2>#{server}</h2>\n",
              "<table>\n",
              '<colgroup><col class="repo"><col class="tag"><col class="hash"><col class="date"><col class="deployer"></colgroup>',
