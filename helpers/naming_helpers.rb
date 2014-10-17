@@ -6,7 +6,7 @@ module NamingHelpers
 
   SERVER_MAP = {
     "bu-cbeserver1.flatworldknowledge.com" => "brandman",
-    "demo-cbeapp.flatworldknowledge.com" => "demo",
+    "demo-cbeserver1.flatworldknowledge.com" => "demo",
     "dev-cbeserver1.flatworldknowledge.com" => "dev",
     "lt-cbeserver1.flatworldknowledge.com" => "laureate",
     "qa-cbeserver1.flatworldknowledge.com" => "qa",
