@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <link rel='stylesheet' type='text/css' href='style.css'>
+    <title>Deploy status</title>
+  </head>
+  <body>
+    <% deploy_status.each do |server, repos| %>
+      <h2><%= server_name(server) %></h2>
+      <table>
+        <colgroup>
+          <col class="repo">
+          <col class="tag">
+          <col class="hash">
+          <col class="date">
+          <col class="deployer">
+        </colgroup>
+        <thead>
+          <th>repo</th>
+          <th>tag</th>
+          <th>hash</th>
+          <th>date</th>
+          <th>deployer</th>
+        </thead>
+        <tbody>
+          <% repos.each do |repo, deploy_data| %>
+            <tr>
+              <td><a href="<%= GITHUB %>/<%= repo %>">
+                <%= repo %>
+              </a></td>
+              <td><a href="<%= GITHUB %>/<%= repo %>/compare/<%= deploy_data["tag"] %>">
+                <%= deploy_data["tag"] %>
+              </a></td>
+              <td><a href="<%= GITHUB %>/<%= repo %>/commit/<%= deploy_data["sha"] %>">
+                <%= deploy_data["sha"] %>
+              </a></td>
+              <td><%= deploy_data["date"] %></td>
+              <td><%= deploy_data["deployer"] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </body>
+</html>

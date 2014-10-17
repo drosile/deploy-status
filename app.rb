@@ -1,90 +1,26 @@
 require 'sinatra'
-require 'redis'
+require './helpers/naming_helpers'
+require './helpers/redis_helpers'
 
-DELIM = '☃'
-SECRET = ENV['SECRET']
-GITHUB = 'https://github.com/flatworld'
-REPO_MAP = { "admin-web" => "id-web", "comp-web" => "cbe-web" }
-SERVER_MAP = {
-  "bu-cbeserver1.flatworldknowledge.com" => "brandman",
-  "demo-cbeapp.flatworldknowledge.com" => "demo",
-  "dev-cbeserver1.flatworldknowledge.com" => "dev",
-  "lt-cbeserver1.flatworldknowledge.com" => "laureate",
-  "qa-cbeserver1.flatworldknowledge.com" => "qa",
-  "template-cbeserver1.flatworldknowledge.com" => "template"
-}
+class DeployStatus < Sinatra::Base
+  helpers NamingHelpers, RedisHelpers
 
-redis_uri = ENV['REDISTOGO_URL'] || 'redis://localhost:6379'
-uri = URI.parse(redis_uri)
-REDIS = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-
-get '*' do
-  status_to_html(deploy_status)
-end
-
-post '/submit' do
-  store(params)
-end
-
-def validate_params(params)
-  params[:server] && params[:repo] && params[:tag] && params[:sha] &&
-    params[:user] && params[:secret] && params[:secret] == SECRET
-end
-
-def store(params)
-  return unless validate_params(params)
-  key = [params[:server], params[:repo]].join(DELIM)
-  REDIS.hset(key, "tag", params[:tag])
-  REDIS.hset(key, "sha", params[:sha])
-  REDIS.hset(key, "date", Time.now)
-  REDIS.hset(key, "deployer", params[:user])
-  "success"
-end
-
-def server_status(server_name)
-  status = {}
-  REDIS.keys("#{server_name}#{DELIM}*").sort.each do |key|
-    repo = key.split(DELIM)[-1]
-    status[repo] = REDIS.hgetall(key)
+  get '*' do
+    erb :deploy_status, locals: { deploy_status: deploy_status }
   end
-  status
-end
 
-def servers
-  REDIS.keys.map { |key| key.split(DELIM).first }
-end
-
-def deploy_status
-  status = {}
-  servers.sort.each do |server|
-    stat = server_status(server)
-    status[server] = stat unless stat.empty?
+  post '/submit' do
+    store(params)
   end
-  status
-end
 
-def status_to_html(deploy_status)
-  html = ["<html>\n",
-          "<head>\n<link rel='stylesheet' type='text/css' href='style.css'>\n",
-          "<title>Deploy status</title>\n</head>\n<body>"]
-  deploy_status.each do |server, repos|
-    server = SERVER_MAP.fetch(server, server)
-    html += ["<h2>#{server}</h2>\n",
-             "<table>\n",
-             '<colgroup><col class="repo"><col class="tag"><col class="hash"><col class="date"><col class="deployer"></colgroup>',
-             "<thead><th>repo</th>\n<th>tag</th>\n<th>hash</th>\n<th>date</th>\n<th>deployer</th></thead><tbody>\n"]
-    repos.each do |repo, deploy_data|
-      repo = REPO_MAP.fetch(repo, repo)
-      html += ["<tr>",
-               "<td><a href=\"#{GITHUB}/#{repo}\">#{repo}</td>\n",
-               "<td><a href=\"#{GITHUB}/#{repo}/compare/#{deploy_data["tag"]}\">#{deploy_data["tag"]}</td>\n",
-               "<td><a href=\"#{GITHUB}/#{repo}/commit/#{deploy_data["sha"]}\">#{deploy_data["sha"]}</a></td>\n",
-               "<td>#{deploy_data["date"]}</td>\n",
-               "<td>#{deploy_data["deployer"]}</td>\n",
-               "</tr>"]
+  def deploy_status
+    status = {}
+    servers.sort.each do |server|
+      stat = server_status(server)
+      status[server] = stat unless stat.empty?
     end
-    html << "</tbody></table>\n"
+    status
   end
-  html << "</body>\n</html>"
-  html.join("")
+
+  run! if app_file == $0
 end
