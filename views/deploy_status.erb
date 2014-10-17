@@ -23,6 +23,7 @@
         </thead>
         <tbody>
           <% repos.each do |repo, deploy_data| %>
+            <% repo = repo_name(repo) %>
             <tr>
               <td><a href="<%= GITHUB %>/<%= repo %>">
                 <%= repo %>
