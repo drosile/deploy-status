@@ -5,15 +5,12 @@ module NamingHelpers
   }
 
   SERVER_MAP = {
-    "bu-cbeserver1.flatworldknowledge.com" => "brandman",
-    "bustage-cbeserver1.flatworldknowledge.com" => "brandman stage",
-    "demo-cbeserver1.flatworldknowledge.com" => "demo",
     "dev-cbeserver1.flatworldknowledge.com" => "dev",
-    "lt-cbeserver1.flatworldknowledge.com" => "laureate",
-    "ltstage-cbeserver1.flatworldknowledge.com" => "laureate stage",
     "qa-cbeserver1.flatworldknowledge.com" => "qa",
-    "mqa-cbeserver1.flatworldknowledge.com" => "mqa",
-    "template-cbeserver1.flatworldknowledge.com" => "template"
+    "mtqa-cbeserver1.flatworld.com" => "mqa 1",
+    "mtqa-cbeserver2.flatworld.com" => "mqa 2",
+    "mtprod-cbeserver1.flatworld.com" => "prod 1",
+    "mtprod-cbeserver2.flatworld.com" => "prod 2"
   }
 
   def server_name(server_name)
