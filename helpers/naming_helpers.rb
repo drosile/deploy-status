@@ -6,9 +6,9 @@ module NamingHelpers
 
   SERVER_MAP = {
     "dev-cbeserver1.flatworldknowledge.com" => "dev",
-    "qa-cbeserver1.flatworldknowledge.com" => "qa",
-    "mtqa-cbeserver1.flatworld.com" => "mqa 1",
-    "mtqa-cbeserver2.flatworld.com" => "mqa 2",
+    "mqa-cbeserver1.flatworldknowledge.com" => "mqa",
+    "mtqa-cbeserver1.flatworld.com" => "qa 1",
+    "mtqa-cbeserver2.flatworld.com" => "qa 2",
     "mtprod-cbeserver1.flatworld.com" => "prod 1",
     "mtprod-cbeserver2.flatworld.com" => "prod 2"
   }
