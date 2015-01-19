@@ -1,11 +1,12 @@
 <html>
   <head>
-    <link rel='stylesheet' type='text/css' href='style.css'>
+    <link rel='stylesheet' type='text/css' href='/style.css'>
     <title>Deploy status</title>
   </head>
   <body>
     <% deploy_status.each do |server, repos| %>
-      <h2><%= server_name(server) %></h2>
+      <% name = server_name(server) %>
+      <h2><a href="/server/<%= name %>"><%= name %></a></h2>
       <table>
         <colgroup>
           <col class="repo">
