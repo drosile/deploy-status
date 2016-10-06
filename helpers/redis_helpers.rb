@@ -4,7 +4,7 @@ module RedisHelpers
   DELIM = '☃'
   REDIS_URI = ENV['REDISTOGO_URL'] || 'redis://localhost:6379'
   SECRET = ENV['SECRET']
-  GITHUB = 'https://github.com/sagence'
+  GITHUB = 'https://github.com/sagencelearning'
 
   def store(params)
     return unless validate_params(params)
