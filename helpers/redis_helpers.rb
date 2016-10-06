@@ -29,6 +29,16 @@ module RedisHelpers
     redis.keys.map { |key| key.split(DELIM).first }
   end
 
+  def keys(key_str)
+    redis.keys(key_str)
+  end
+
+  def remove_keys(key_str)
+    keys(key_str).each do |key|
+      redis.del(key)
+    end
+  end
+
   private
 
   def validate_params(params)

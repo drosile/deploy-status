@@ -1,21 +1,18 @@
 module NamingHelpers
   REPO_MAP = {
-    "admin-web" => "design",
-    "comp-web" => "learn"
+    "id-web" => "compose",
+    "cbe-web" => "cognify"
   }
 
   SERVER_MAP = {
-    "dev-cbeserver1.flatworld.com" => "dev",
-    "mqa-cbe1" => "mqa",
     "qa-cbe1" => "qa 1",
     "qa-cbe2" => "qa 2",
     "mdev-cbe1" => "mdev",
+    "mqa-cbe1" => "mqa",
     "sdev-cbe1" => "sdev",
-    "mtprod-cbeserver1.flatworld.com" => "prod 1",
-    "mtprod-cbeserver2.flatworld.com" => "prod 2",
-    "fwk-experiments" => "Scholar X",
-    "fwk-scholar1" => "Scholar 1",
-    "fwk-scholar2" => "Scholar 2"
+    "sqa-cbe1" => "sqa",
+    "prod-cbe1" => "prod 1",
+    "prod-cbe2" => "prod 2"
   }
 
   def server_name(server_name)
