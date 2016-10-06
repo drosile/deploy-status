@@ -12,7 +12,7 @@
     <title>Deploy status</title>
   </head>
   <body>
-    <% deploy_status.each do |server, repos| %>
+    <% deploy_status.each do |server, apps| %>
       <% name = server_name(server) %>
       <h2><a href="/server/<%= name %>"><%= name %></a></h2>
       <table>
@@ -24,18 +24,19 @@
           <col class="deployer">
         </colgroup>
         <thead>
-          <th>repo</th>
+          <th>app</th>
           <th>tag</th>
           <th>hash</th>
           <th>date</th>
           <th>deployer</th>
         </thead>
         <tbody>
-          <% repos.each do |repo, deploy_data| %>
-            <% repo = repo_name(repo) %>
+          <% apps.each do |app, deploy_data| %>
+            <% repo = repo_name(app) %>
+            <% a_name = app_name(app) %>
             <tr>
               <td><a href="<%= GITHUB %>/<%= repo %>">
-                <%= repo %>
+                <%= a_name %>
               </a></td>
               <td><a href="<%= GITHUB %>/<%= repo %>/compare/<%= deploy_data["tag"] %>">
                 <%= deploy_data["tag"] %>

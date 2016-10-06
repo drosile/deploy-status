@@ -1,5 +1,7 @@
 module NamingHelpers
-  REPO_MAP = {
+  REPO_MAP = {}
+
+  APP_MAP = {
     "id-web" => "compose",
     "cbe-web" => "cognify"
   }
@@ -14,6 +16,10 @@ module NamingHelpers
     "prod-cbe1" => "prod 1",
     "prod-cbe2" => "prod 2"
   }
+
+  def app_name(app)
+    APP_MAP.fetch(app, app)
+  end
 
   def server_name(server_name)
     SERVER_MAP.fetch(server_name, server_name)
